@@ -127,11 +127,12 @@ public class Graph {
         }
         else if(Math.random() <= 0.75)
         {
-
+            Edge edge2 = new Edge(destIdx, srcIdx);
+            List edgeList2 = adjacencyList.get(srcIdx);
+            edgeList2.add(edge2);
+            adjacencyList.put(srcIdx, edgeList2);
+            adjacencyMatrix[destIdx][srcIdx] = weight;
         }
-
-
-
     }
 
     /**
@@ -154,11 +155,26 @@ public class Graph {
         //    - Loop through its neighbors (from adjacencyList).
         //    - If neighbor is not visited: mark visited and add to queue.
 
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[numVertices];
+        queue.add(vertexIndex.get(startVertex));
+        visited[vertexIndex.get(startVertex)] = true;
 
-
-
-
-
+        while(!queue.isEmpty())
+        {
+            for(int i = 0; i < numVertices; i++)
+            {
+                if(adjacencyMatrix[queue.peek()][i] == 1)
+                {
+                    if(!visited[i])
+                    {
+                        queue.add(i);
+                    }
+                }
+            }
+            visited[queue.peek()] = true;
+            result.add(indexVertex.get(queue.poll()));
+        }
         return result;
     }
 
@@ -179,9 +195,26 @@ public class Graph {
         // If Recursive: dfsHelper(currentIdx, visited, result)
 
 
+        Stack<Integer> stack = new Stack<>();
+        stack.push(vertexIndex.get(startVertex));
+        visited[vertexIndex.get(startVertex)] = true;
 
-
-
+        while(!stack.isEmpty())
+        {
+            int popped = stack.pop();
+            for(int i = 0; i < numVertices; i++)
+            {
+                if(adjacencyMatrix[popped][i] == 1)
+                {
+                    if(!visited[i])
+                    {
+                        stack.push(i);
+                    }
+                }
+            }
+            visited[popped] = true;
+            result.add(indexVertex.get(popped));
+        }
 
         return result;
     }
