@@ -59,11 +59,11 @@ public class Graph {
         // 2. Loop through 0 to numVertices-1 and add an empty ArrayList for each vertex
 
 
-        HashMap<Integer, ArrayList> adjacencyList = new HashMap<>();
+        adjacencyList = new HashMap<>();
 
-        for(int i = 0; i < numVertices - 1; i++)
+        for(int i = 0; i < numVertices; i++)
         {
-            adjacencyList.put(i, new ArrayList<>());
+            adjacencyList.put(i, new ArrayList<Edge>());
         }
 
 
@@ -72,11 +72,11 @@ public class Graph {
         // 2. IMPORTANT: Java arrays default to 0.0. You must loop through the matrix
         //    and set every value to Double.POSITIVE_INFINITY to represent "No Edge".
 
-        double[][] adjacencyMatrix = new double[numVertices][numVertices];
+        adjacencyMatrix = new double[numVertices][numVertices];
 
-        for(int i = 0; i < numVertices - 1; i++)
+        for(int i = 0; i < numVertices; i++)
         {
-            for(int j = 0; i < numVertices - 1; j++)
+            for(int j = 0; j < numVertices; j++)
             {
                 adjacencyMatrix[i][j] = Double.POSITIVE_INFINITY;
             }
@@ -103,7 +103,7 @@ public class Graph {
         // TODO: Add edge to Adjacency List
         // Create a new Edge object and add it to the list for srcIdx
 
-        Edge edge = new Edge(destIdx, srcIdx);
+        Edge edge = new Edge(destIdx, weight);
         List edgeList = adjacencyList.get(srcIdx);
         edgeList.add(edge);
         adjacencyList.put(srcIdx, edgeList);
@@ -119,19 +119,19 @@ public class Graph {
 
         if(!isDirected)
         {
-            Edge edge2 = new Edge(destIdx, srcIdx);
-            List edgeList2 = adjacencyList.get(srcIdx);
-            edgeList2.add(edge2);
-            adjacencyList.put(srcIdx, edgeList2);
             adjacencyMatrix[destIdx][srcIdx] = weight;
+            Edge edge2 = new Edge(srcIdx, weight);
+            List edgeList2 = adjacencyList.get(destIdx);
+            edgeList2.add(edge2);
+            adjacencyList.put(destIdx, edgeList2);
         }
         else if(Math.random() <= 0.75)
         {
-            Edge edge2 = new Edge(destIdx, srcIdx);
-            List edgeList2 = adjacencyList.get(srcIdx);
-            edgeList2.add(edge2);
-            adjacencyList.put(srcIdx, edgeList2);
             adjacencyMatrix[destIdx][srcIdx] = weight;
+            Edge edge2 = new Edge(srcIdx, weight);
+            List edgeList2 = adjacencyList.get(destIdx);
+            edgeList2.add(edge2);
+            adjacencyList.put(destIdx, edgeList2);
         }
     }
 
@@ -157,8 +157,8 @@ public class Graph {
 
         Queue<Integer> queue = new LinkedList<>();
         boolean[] visited = new boolean[numVertices];
-        queue.add(vertexIndex.get(startVertex));
         visited[vertexIndex.get(startVertex)] = true;
+        queue.add(vertexIndex.get(startVertex));
 
         while(!queue.isEmpty())
         {
