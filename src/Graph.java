@@ -164,16 +164,17 @@ public class Graph {
         {
             for(int i = 0; i < numVertices; i++)
             {
-                if(adjacencyMatrix[queue.peek()][i] == 1)
+                if(adjacencyMatrix[queue.peek()][i] >= 1 && !visited[i])
                 {
-                    if(!visited[i])
-                    {
+//                    if( adjacencyMatrix[queue.peek()][i] != (Double.POSITIVE_INFINITY)){
                         queue.add(i);
-                    }
+                        visited[i] = true;
+//                    }
                 }
             }
-            visited[queue.peek()] = true;
             result.add(indexVertex.get(queue.poll()));
+            //System.out.println(queue.size());
+            System.out.println(queue);
         }
         return result;
     }
@@ -199,20 +200,21 @@ public class Graph {
         stack.push(vertexIndex.get(startVertex));
         visited[vertexIndex.get(startVertex)] = true;
 
+
         while(!stack.isEmpty())
         {
             int popped = stack.pop();
             for(int i = 0; i < numVertices; i++)
             {
-                if(adjacencyMatrix[popped][i] == 1)
+//                System.out.println("popped is: " + popped);
+                if(adjacencyMatrix[popped][i] >= 1  && visited[i] == false)
                 {
-                    if(!visited[i])
-                    {
-                        stack.push(i);
-                    }
+//                    System.out.println("I'm looking at " + i);
+                    visited[popped] = true;
+                    stack.push(i);
                 }
             }
-            visited[popped] = true;
+
             result.add(indexVertex.get(popped));
         }
 
