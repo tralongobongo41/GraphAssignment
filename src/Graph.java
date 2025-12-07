@@ -200,21 +200,21 @@ public class Graph {
         stack.push(vertexIndex.get(startVertex));
         visited[vertexIndex.get(startVertex)] = true;
 
-
         while(!stack.isEmpty())
         {
             int popped = stack.pop();
-            for(int i = 0; i < numVertices; i++)
+//            result.add(indexVertex.get(popped));
+
+            for(int i = numVertices - 1; i >= 0; i--)
             {
 //                System.out.println("popped is: " + popped);
                 if(adjacencyMatrix[popped][i] >= 1  && visited[i] == false)
                 {
 //                    System.out.println("I'm looking at " + i);
-                    visited[popped] = true;
+                    visited[i] = true;
                     stack.push(i);
                 }
             }
-
             result.add(indexVertex.get(popped));
         }
 
