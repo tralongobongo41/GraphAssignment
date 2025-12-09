@@ -203,19 +203,19 @@ public class Graph {
         while(!stack.isEmpty())
         {
             int popped = stack.pop();
-//            result.add(indexVertex.get(popped));
+            result.add(indexVertex.get(popped));
 
             for(int i = numVertices - 1; i >= 0; i--)
             {
-//                System.out.println("popped is: " + popped);
-                if(adjacencyMatrix[popped][i] >= 1  && visited[i] == false)
+                //System.out.println("popped is: " + popped);
+                if(visited[i] == false && adjacencyMatrix[popped][i] != Double.POSITIVE_INFINITY)
                 {
-//                    System.out.println("I'm looking at " + i);
+                    //System.out.println("I'm looking at " + i);
                     visited[i] = true;
                     stack.push(i);
                 }
             }
-            result.add(indexVertex.get(popped));
+            //result.add(indexVertex.get(popped));
         }
 
         return result;
